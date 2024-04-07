@@ -70,33 +70,10 @@ function Header() {
   return (
     <header className="bg-blue-900 text-white p-4 w-full">
       <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-bold">MediBlock</h1>
+        <h1 className="text-xl font-bold hover:cursor-pointer	" onClick={()=>{window.location.href="/"}}>MediBlock</h1>
         <nav>
           <ul className="flex space-x-6">
-            <li>
-              <a
-                href="/"
-                className="hover:underline duration-300 underline-offset-2"
-              >
-                Home
-              </a>
-            </li>
-            <li>
-              <a
-                href="/services"
-                className="hover:underline duration-300 underline-offset-2"
-              >
-                Services
-              </a>
-            </li>
-            <li>
-              <a
-                href="/contact"
-                className="hover:underline duration-300 underline-offset-2"
-              >
-                Contact Us
-              </a>
-            </li>
+            
           </ul>
         </nav>
         <ul className="flex space-x-4">
