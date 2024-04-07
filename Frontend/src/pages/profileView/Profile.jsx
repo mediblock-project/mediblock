@@ -16,7 +16,7 @@ const ProfileView = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             // Construct the URL with the user ID
-            const apiUrl = `http://localhost:3000/api/user/${userId}`; // Adjust as necessary
+            const apiUrl = `${import.meta.env.VITE_SERVER_API}/api/user/${userId}`; // Adjust as necessary
             try {
                 const response = await fetch(apiUrl);
                 const data =  await response.json();

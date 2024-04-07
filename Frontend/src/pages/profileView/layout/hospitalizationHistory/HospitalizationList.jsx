@@ -33,7 +33,7 @@ const HospitalizationList = ({ userFormData, setUserFormData, userId }) => {
         setUserFormData(updatedUserFormData); // Update local state
 
         try {
-            const response = await fetch(`http://localhost:3000/api/user/${userId}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/user/${userId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updatedUserFormData)

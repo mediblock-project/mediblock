@@ -2,8 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { FaRegUserCircle } from "react-icons/fa";
-import { useAccount, useDisconnect } from "wagmi";
+import { useAccount, useDisconnect ,useReadContract} from "wagmi";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import contract_ABI from "../contractABI";
+
 
 function Header() {
   const { address, isConnected } = useAccount();
@@ -11,6 +13,13 @@ function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { exist, setExists } = useState();
   const { disconnect } = useDisconnect();
+  const { data: ispatientregistered } = useReadContract({
+    address: import.meta.env.VITE_CONTRACT_ADDRESS,
+    abi: contract_ABI,
+    chainId: 11155111,
+    functionName: "registeredPatients",
+    args: [address],
+  });
   // useEffect(() => {
   //   const checkUserExists = async () => {
   //     if (isConnected && address) {
@@ -49,7 +58,12 @@ function Header() {
   // Function to handle profile navigation
   const handleProfileClick = () => {
     setDropdownOpen(false); // Close the dropdown
-    window.location.href = `/profile/${address}`; // Navigate to profile page
+    if(ispatientregistered){
+      window.location.href = `/profile/${address}`; // Navigate to profile page
+    }
+    else{
+      window.location.href = `/docProfile`; // Navigate to profile page
+    }
   };
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
@@ -86,32 +100,8 @@ function Header() {
           </ul>
         </nav>
         <ul className="flex space-x-4">
-          <li>
-            <button
-              onClick={() => {
-                window.location.href = "/profile";
-               
-              }}
-              className="bg-blue-500 rounded-lg p-2 font-medium text-2xl text-white"
-            >
-              <FaRegUserCircle />
-            </button>
-          </li>
-          {/* Conditionally render the Register button */}
-          {/* {!isConnected && (
-            <li>
-              <button
-                onClick={() => {
-                  window.location.href = "/register";
-                }}
-                className="bg-blue-500 rounded-lg py-1.5 px-3 font-medium text-lg text-white"
-              >
-                Register
-              </button>
-            </li>
-          )}
-
-          <ConnectButton label="Log in" accountStatus="address" chainStatus="none" showBalance={false}/> */}
+          
+          
           {!isConnected ? (
             <>
               <button
@@ -135,7 +125,7 @@ function Header() {
             <div className="relative inline-block">
               <button
                 onClick={toggleDropdown}
-                className="py-2 px-4 bg-green-600 text-white rounded transition duration-300 hover:scale-105 flex items-center w-full"
+                className="py-2 px-4 bg-blue-500 text-white rounded transition duration-300 hover:scale-105 flex items-center w-full"
               >
                 {formatAddress(address)} <span className="ml-2">▼</span>
               </button>

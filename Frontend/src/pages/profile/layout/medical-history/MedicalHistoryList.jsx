@@ -22,7 +22,7 @@ const MedicalHistoryList = ({ userFormData, setUserFormData, userId }) => {
         setUserFormData(updatedUserFormData); // Update the state with the new user data
 
         try {
-            const response = await fetch(`http://localhost:3000/api/user/${userId}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/user/${userId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updatedUserFormData)

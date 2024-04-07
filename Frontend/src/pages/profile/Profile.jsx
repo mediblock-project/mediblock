@@ -18,8 +18,8 @@ const Profile = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             // Construct the URL with the user ID
-            const apiUrl = `http://localhost:3000/api/user/${userId}`; // Adjust as necessary
-            const apiDocUrl = `http://localhost:3000/api/doctor`;
+            const apiUrl = `${import.meta.env.VITE_SERVER_API}/api/user/${userId}`; // Adjust as necessary
+            const apiDocUrl = `${import.meta.env.VITE_SERVER_API}/api/doctor`;
             try {
                 const response = await fetch(apiUrl);
                 const docResponse = await fetch(apiDocUrl)

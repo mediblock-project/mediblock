@@ -12,7 +12,7 @@ const DoctorsList = ({doctorData}) => {
     const whitelistCheck=((id)=>{
         
         const { data: isWhitelisted } = useReadContract({
-            address: "0xd9973cC4246E9Ac5c87E3FD1c2C6eDc30bCbc537",
+            address: import.meta.env.VITE_CONTRACT_ADDRESS,
             abi: contract_ABI,
             chainId: 11155111,
             functionName: "isWhitelisted",
@@ -33,7 +33,7 @@ const DoctorsList = ({doctorData}) => {
     
             if (isWhitelist) {
                 await writeContractAsync({
-                    address: "0xd9973cC4246E9Ac5c87E3FD1c2C6eDc30bCbc537",
+                    address: import.meta.env.VITE_CONTRACT_ADDRESS,
                     abi: contract_ABI,
                     chainId: 11155111,
                     functionName: "revokeAccess",
@@ -42,7 +42,7 @@ const DoctorsList = ({doctorData}) => {
                 toast.success("Access revoked");
             } else {
                 await writeContractAsync({
-                    address: "0xd9973cC4246E9Ac5c87E3FD1c2C6eDc30bCbc537",
+                    address: import.meta.env.VITE_CONTRACT_ADDRESS,
                     abi: contract_ABI,
                     chainId: 11155111,
                     functionName: "whitelistUser",
@@ -57,7 +57,7 @@ const DoctorsList = ({doctorData}) => {
     })
     const fetchDoctorsData = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/doctor');
+            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/doctor`);
             if (!response.ok) {
                 throw new Error('Failed to fetch doctors data');
             }

@@ -12,14 +12,14 @@ const Login = () => {
   const { address, isConnected } = useAccount();
   
   const { data: ispatientregistered } = useReadContract({
-    address: "0xd9973cC4246E9Ac5c87E3FD1c2C6eDc30bCbc537",
+    address: import.meta.env.VITE_CONTRACT_ADDRESS,
     abi: contract_ABI,
     chainId: 11155111,
     functionName: "registeredPatients",
     args: [address],
   });
   const { data: isdoctorregistered } = useReadContract({
-    address: "0xd9973cC4246E9Ac5c87E3FD1c2C6eDc30bCbc537",
+    address: import.meta.env.VITE_CONTRACT_ADDRESS,
     abi: contract_ABI,
     chainId: 11155111,
     functionName: "registeredDoctors",

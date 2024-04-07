@@ -26,7 +26,7 @@ const InsuranceList = ({
     setUserFormData(updatedUserFormData);
     // Push the updated userFormData to the API
     try {
-      const response = await fetch(`http://localhost:3000/api/user/${userId}`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/user/${userId}`, {
         method: "PUT", // Assuming the endpoint supports PUT for updates
         headers: {
           "Content-Type": "application/json",

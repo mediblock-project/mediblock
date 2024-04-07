@@ -3,7 +3,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import {
   useAccount,
   useWaitForTransactionReceipt,
-  useWriteContract,
+  useWriteContract, useDisconnect
 } from "wagmi";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import contract_ABI from "../../../contractABI.js";
@@ -12,6 +12,8 @@ import toast from "react-hot-toast";
 const Register = () => {
   const [activeTab, setActiveTab] = useState("patient");
   const navigate = useNavigate();
+  const { disconnect } = useDisconnect();
+
   // Separate states for patient and doctor form data for clarity
   const [patientFormData, setPatientFormData] = useState({
     name: "",
@@ -50,7 +52,7 @@ const Register = () => {
 
       // Patient registration payload
       payload = { ...patientFormData, _id: walletAddress };
-      apiUrl = `http://localhost:3000/api/user`; // Adjust API endpoint as necessary
+      apiUrl = `${import.meta.env.VITE_SERVER_API}/api/user`; // Adjust API endpoint as necessary
 
       // Connect to the Rinkeby testnet using Infura provider
       try {
@@ -62,6 +64,7 @@ const Register = () => {
         });
 
         if (!response.ok) {
+    
           throw new Error("Failed to push patient data to the database");
         }
 
@@ -69,7 +72,7 @@ const Register = () => {
         toast.success("Patient Data Saved in Database");
 
         await writeContractAsync({
-          address: "0xd9973cC4246E9Ac5c87E3FD1c2C6eDc30bCbc537",
+          address: import.meta.env.VITE_CONTRACT_ADDRESS,
           abi: contract_ABI,
           chainId: 11155111,
           functionName: "registerPatient",
@@ -77,12 +80,15 @@ const Register = () => {
 
         // Show toast notification for successful registration
         toast.success("Patient Registration Successful");
-        console.log("isConfirmed:", isConfirmed);
-        if (isConfirmed) {
-          //console.log("Confirmed:", isConfirmed);
-          // Try different navigation methods if window.location.href doesn't work
-          window.location.href = `/profile/${walletAddress}`;
-        }
+        toast.success('Registration successfull, Go to login page')
+        disconnect();
+        setPatientFormData({
+          name: "",
+          email: "",
+          age: "",
+          phoneNumber: "",
+        })
+
       } catch (error) {
         // Show toast notification for error
         toast.error(error.message);
@@ -99,7 +105,7 @@ const Register = () => {
                 address: doctorFormData.contactAddress,
             },
         };
-        apiUrl = `http://localhost:3000/api/doctor`; // Adjust API endpoint as necessary
+        apiUrl = `${import.meta.env.VITE_SERVER_API}/api/doctor`; // Adjust API endpoint as necessary
 
     try {
         // Push data to the database
@@ -118,7 +124,7 @@ const Register = () => {
 
         
         await writeContractAsync({
-            address: "0xd9973cC4246E9Ac5c87E3FD1c2C6eDc30bCbc537",
+            address: import.meta.env.VITE_CONTRACT_ADDRESS,
             abi: contract_ABI,
             chainId: 11155111,
             functionName: "registerDoctor",
@@ -128,10 +134,18 @@ const Register = () => {
         toast.success(`Doctor Registration Successful`);
 
         // Check if confirmed and navigate to profile
-        console.log(isConfirmed)
-        if (isConfirmed) {
-            window.location.href = `/docprofile`;
-        }
+        toast.success('Registration successfull, Go to login page')
+        disconnect();
+        setDoctorFormData({
+          name: "",
+          specialization: "",
+          licenseNumber: "",
+          email: "",
+          contactNumber: "",
+          contactAddress: "",
+          yearsOfExperience: "",
+        })
+
     } catch (error) {
         // Show toast notification for error
         toast.error(error.message);

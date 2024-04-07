@@ -23,7 +23,7 @@ const config = getDefaultConfig({
   projectId: "f262254d5c6ec00a8abfcc2e6c98b52a",
   chains: [sepolia],
   transports: {
-    [sepolia.id]: http('https://eth-sepolia.g.alchemy.com/v2/gvwnMmbaVIiDGkBZitp0DQ9rs8Z2Uz5m')
+    [sepolia.id]: http(import.meta.env.VITE_SEPOLIA_RPC)
   },
 });
 

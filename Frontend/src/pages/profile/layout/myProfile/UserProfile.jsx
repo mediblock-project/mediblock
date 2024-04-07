@@ -9,7 +9,7 @@ const UserProfile = ({userFormData,setUserFormData,userId}) => {
         e.preventDefault();
     
         // Construct the PUT request URL
-        const apiUrl = `http://localhost:3000/api/user/${userId}`; // Adjust as necessary
+        const apiUrl = `${import.meta.env.VITE_SERVER_API}/api/user/${userId}`; // Adjust as necessary
         try {
             const response = await fetch(apiUrl, {
                 method: 'PUT',

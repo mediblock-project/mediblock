@@ -14,7 +14,7 @@ const DoctorProfile = () => {
   const [patientList, setPatientList] = useState([]);
 
   const { data: patient } = useReadContract({
-    address: "0xd9973cC4246E9Ac5c87E3FD1c2C6eDc30bCbc537",
+    address: import.meta.env.VITE_CONTRACT_ADDRESS,
     abi: contract_ABI,
     chainId: 11155111,
     functionName: "getUsersWhitelistedForDoctor",
@@ -23,7 +23,7 @@ const DoctorProfile = () => {
   
   const fetchDataForItem = async (itemId) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/user/${itemId}`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/user/${itemId}`);
       if (!response.ok) {
         throw new Error("Failed to fetch user data");
       }
@@ -49,7 +49,7 @@ const DoctorProfile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       // Construct the URL with the user ID
-      const apiUrl = `http://localhost:3000/api/doctor/${address}`; // Adjust as necessary
+      const apiUrl = `${import.meta.env.VITE_SERVER_API}/api/doctor/${address}`; // Adjust as necessary
       try {
         const response = await fetch(apiUrl);
         const data = await response.json();
